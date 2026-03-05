@@ -1,0 +1,48 @@
+===== SUPPLIER QUALITY AUDIT SYSTEM — EXPORT =====
+Generated: 2025-01-20T10:00:00Z | User: quality@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Report ID:     AUDIT-Q4-2024
+Title:         Supplier Quality Audit Summary - Q4 2024
+Audit Period:  October - December 2024
+Auditor:       Quality Assurance Division
+
+TPA-001 (TechParts Asia): PASSED with minor observations.
+  - Finding: Traceability documentation gaps in lot-level tracking for MCU-2200.
+  - Corrective Action: Update traceability system by February 2025.
+  - Score: 90/100
+
+ECG-002 (EuroComponents GmbH): PASSED with zero findings.
+  - Gold-tier supplier status renewed for 2025.
+  - Score: 97/100
+
+ALT-003 (Pacific Semiconductor Corp): PASSED with observations.
+  - Finding: Incoming inspection sampling rate below target (AQL 0.65 vs target 0.4).
+  - Recommendation: Increase order allocation as backup supplier develops.
+  - Score: 84/100
+
+ALT-004 (Nordic Electronics AB): PASSED.
+  - First audit cycle complete. Approved for production orders.
+  - Strong ESG and sustainability documentation.
+  - Score: 92/100
+
+MFG-005 (AmeriChip Manufacturing): PASSED.
+  - Aerospace-grade facility. Highest scores in portfolio.
+  - CMMC Level 2 certification verified.
+  - Score: 96/100
+
+RAW-008 (SiliconPure Materials): CONDITIONAL PASS.
+  - Finding: Delivery consistency below 90% target (actual: 88%).
+  - Finding: Documentation for rare earth sourcing incomplete.
+  - Required: Improvement plan due Q2 2025. Re-audit scheduled.
+  - Score: 76/100
+
+PCK-009 (SafePack Industries): PASSED.
+  - No significant findings. ISTA 3A packaging certification current.
+  - Score: 89/100
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Quality Assurance Division | Do Not Distribute Externally
+===== END EXPORT =====

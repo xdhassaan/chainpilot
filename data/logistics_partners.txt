@@ -1,0 +1,39 @@
+===== LOGISTICS PARTNER DATABASE — EXPORT =====
+Generated: 2025-01-15T08:35:00Z | User: admin@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Supplier ID:   LOG-006
+Name:          FastFreight Logistics
+Location:      Singapore
+Region:        Asia-Pacific
+Tier:          Primary
+Status:        Active
+Certifications:   C-TPAT certified, AEO certified, GDP compliant
+Services:      Air freight, ocean freight, customs brokerage, warehousing
+Coverage:      Asia-Pacific to North America and Europe
+Transit Times: Air 3-5 days, Ocean 18-25 days
+On-Time Delivery:   92%
+Contract Expiry:    2026-04-30
+Risk Notes:    Primary logistics partner for Asian suppliers. Expedite surcharge: 40% premium for next-day air freight.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   LOG-007
+Name:          TransEuro Shipping
+Location:      Rotterdam, Netherlands
+Region:        Europe
+Tier:          Backup
+Status:        Active
+Certifications:   AEO certified, ISO 28000 (supply chain security)
+Services:      Ocean freight, rail freight, last-mile delivery, bonded warehousing
+Coverage:      Europe to Asia and North America
+Transit Times: Ocean 12-18 days, Rail 15-20 days
+On-Time Delivery:   95%
+Contract Expiry:    2025-12-31
+Risk Notes:    Strong European network. Backup for Asian route disruptions via rail.
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Internal Use Only | ProcurementCo Logistics Division
+===== END EXPORT =====

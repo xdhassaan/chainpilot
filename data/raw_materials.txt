@@ -1,0 +1,45 @@
+===== RAW MATERIALS SUPPLIER DATABASE — EXPORT =====
+Generated: 2025-01-15T08:40:00Z | User: admin@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Supplier ID:   RAW-008
+Name:          SiliconPure Materials
+Location:      Busan, South Korea
+Region:        Asia-Pacific
+Tier:          Primary
+Status:        Active
+Certifications:   ISO 9001:2015, SEMI standards compliant
+Products:      Silicon wafers (200mm, 300mm), rare earth elements, semiconductor-grade chemicals
+Lead Time:     30-45 days
+MOQ:           100 wafers
+On-Time Delivery:   88%
+Quality Reject Rate: 0.8%
+Annual Capacity:    50,000 wafers
+Payment Terms:      Net 30
+Contract Expiry:    2025-08-31
+Risk Notes:    Long lead times. Geopolitical risk due to regional tensions. Critical raw material supplier for MCU manufacturing.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   PCK-009
+Name:          SafePack Industries
+Location:      Dongguan, China
+Region:        Asia-Pacific
+Tier:          Primary
+Status:        Active
+Certifications:   ISO 9001:2015, ISTA 3A certified packaging
+Products:      Anti-static packaging, ESD-safe trays, moisture barrier bags, custom foam inserts
+Lead Time:     5-7 days
+MOQ:           10,000 units
+On-Time Delivery:   96%
+Quality Reject Rate: 0.2%
+Annual Capacity:    20,000,000 units
+Payment Terms:      Net 15
+Contract Expiry:    2026-02-28
+Risk Notes:    Located near TPA-001. Regional disruptions may affect both suppliers simultaneously.
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Internal Use Only | ProcurementCo Materials Division
+===== END EXPORT =====

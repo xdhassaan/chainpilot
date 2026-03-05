@@ -1,0 +1,59 @@
+===== SUPPLIER PERFORMANCE SYSTEM — EXPORT =====
+Generated: 2025-01-30T14:00:00Z | User: analytics@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Report ID:     PERF-2024-ANNUAL
+Title:         Supplier Performance Rankings - 2024 Annual Review
+Scoring Methodology: Weighted composite score (0-100)
+  - On-time delivery: 30%
+  - Quality (reject rate inverse): 30%
+  - Cost competitiveness: 20%
+  - Responsiveness: 20%
+
+TIER 1 — EXCELLENT (95-100):
+  ECG-002 (EuroComponents GmbH): 97/100
+    Strengths: Best-in-class quality (0.1% reject), 98% on-time delivery
+    Weakness: Premium pricing (+15% vs market average)
+  MFG-005 (AmeriChip Manufacturing): 96/100
+    Strengths: Lowest reject rate (0.05%), aerospace certification
+    Weakness: High pricing (2x standard), long lead times (21-28 days)
+
+TIER 2 — GOOD (85-94):
+  ALT-004 (Nordic Electronics AB): 92/100
+    Strengths: Low MOQ (500 units), strong ESG, 96% on-time
+    Weakness: Limited product range vs primary suppliers
+  TPA-001 (TechParts Asia): 90/100
+    Strengths: High capacity (2M units), competitive pricing
+    Weakness: Single-source risk for MCU-2200, typhoon exposure
+  PCK-009 (SafePack Industries): 89/100
+    Strengths: Fast lead times (5-7 days), high capacity (20M units)
+    Weakness: Co-located risk with TPA-001 in southern China
+
+TIER 3 — ACCEPTABLE (75-84):
+  ALT-003 (Pacific Semiconductor Corp): 84/100
+    Strengths: MCU-compatible products, faster lead times than TPA-001
+    Weakness: Higher reject rate (0.5%), geopolitical risk
+  LOG-007 (TransEuro Shipping): 85/100
+    Strengths: Strong European network, rail freight option
+    Weakness: Limited Asia-direct coverage
+  LOG-006 (FastFreight Logistics): 83/100
+    Strengths: Asia-Pacific coverage, air freight capability
+    Weakness: 92% on-time (below 95% target), high expedite surcharges
+
+TIER 4 — NEEDS IMPROVEMENT (<75):
+  RAW-008 (SiliconPure Materials): 76/100
+    Strengths: Critical raw material supplier, SEMI compliant
+    Weakness: 88% on-time delivery, 0.8% reject rate, long lead times
+    Action: Improvement plan required by Q2 2025
+
+RECOMMENDATIONS:
+  1. Increase allocation to ECG-002 and ALT-004 for passive components.
+  2. Develop ALT-003 as stronger backup for TPA-001 semiconductor line.
+  3. Mandate RAW-008 improvement plan with monthly progress reviews.
+  4. Evaluate additional North American semiconductor source to reduce Asia dependency.
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Supply Chain Analytics | ProcurementCo
+===== END EXPORT =====

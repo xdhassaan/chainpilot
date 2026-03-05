@@ -1,0 +1,102 @@
+===== SUPPLIER MANAGEMENT SYSTEM — EXPORT =====
+Generated: 2025-01-15T08:30:00Z | User: admin@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Supplier ID:   TPA-001
+Name:          TechParts Asia
+Location:      Shenzhen, China
+Region:        Asia-Pacific
+Tier:          Primary
+Status:        Active
+Certifications:   ISO 9001:2015, ISO 14001:2015, IATF 16949
+Products:      Semiconductor chips (MCU-2200, MCU-3300), ceramic capacitors (CAP-100nF, CAP-220nF)
+Lead Time:     14-21 days standard, 7 days expedited
+MOQ:           5,000 units
+On-Time Delivery:   94%
+Quality Reject Rate: 0.3%
+Annual Capacity:    2,000,000 units
+Payment Terms:      Net 30
+Contract Expiry:    2026-06-30
+Risk Notes:    Single-source for MCU-2200 line. Located in typhoon-prone region. Factory has single production line for MCU chips.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   ECG-002
+Name:          EuroComponents GmbH
+Location:      Munich, Germany
+Region:        Europe
+Tier:          Primary
+Status:        Active
+Certifications:   ISO 9001:2015, REACH compliant, RoHS compliant, AEO certified
+Products:      Precision resistors (RES-10K, RES-47K), inductors (IND-100uH, IND-470uH)
+Lead Time:     7-10 days
+MOQ:           1,000 units
+On-Time Delivery:   98%
+Quality Reject Rate: 0.1%
+Annual Capacity:    5,000,000 units
+Payment Terms:      Net 45
+Contract Expiry:    2026-12-31
+Risk Notes:    Premium pricing but highest quality scores in portfolio. Gold-tier supplier.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   ALT-003
+Name:          Pacific Semiconductor Corp
+Location:      Taipei, Taiwan
+Region:        Asia-Pacific
+Tier:          Backup
+Status:        Active
+Certifications:   ISO 9001:2015, IATF 16949, ISO 45001
+Products:      Semiconductor chips (MCU-2200 compatible, MCU-3300 compatible), microprocessors
+Lead Time:     10-14 days
+MOQ:           2,000 units
+On-Time Delivery:   91%
+Quality Reject Rate: 0.5%
+Annual Capacity:    3,000,000 units
+Payment Terms:      Net 30
+Contract Expiry:    2025-09-30
+Risk Notes:    Qualified backup for TPA-001. Slightly higher reject rate but faster lead times. Geopolitical risk.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   ALT-004
+Name:          Nordic Electronics AB
+Location:      Stockholm, Sweden
+Region:        Europe
+Tier:          Backup
+Status:        Active
+Certifications:   ISO 9001:2015, ISO 14001:2015, REACH, RoHS, Conflict Minerals Free
+Products:      Resistors (RES-10K compatible), capacitors (CAP-100nF compatible), connectors
+Lead Time:     10-14 days
+MOQ:           500 units
+On-Time Delivery:   96%
+Quality Reject Rate: 0.15%
+Annual Capacity:    4,000,000 units
+Payment Terms:      Net 30
+Contract Expiry:    2026-03-31
+Risk Notes:    Strong ESG credentials. Lower MOQ makes them ideal for urgent small orders.
+<<END RECORD>>
+
+<<RECORD>>
+Supplier ID:   MFG-005
+Name:          AmeriChip Manufacturing
+Location:      Austin, Texas, USA
+Region:        North America
+Tier:          Specialty
+Status:        Active
+Certifications:   ISO 9001:2015, ITAR compliant, AS9100D (aerospace grade)
+Products:      High-reliability MCU chips (MCU-2200-MIL, MCU-3300-MIL), custom ASICs
+Lead Time:     21-28 days
+MOQ:           1,000 units
+On-Time Delivery:   97%
+Quality Reject Rate: 0.05%
+Annual Capacity:    500,000 units
+Payment Terms:      Net 60
+Contract Expiry:    2027-01-31
+Risk Notes:    Premium pricing (2x standard). Best for defense/aerospace applications. CMMC Level 2 certified.
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Internal Use Only | ProcurementCo Supply Chain Division
+===== END EXPORT =====

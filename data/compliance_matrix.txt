@@ -1,0 +1,42 @@
+===== COMPLIANCE MANAGEMENT SYSTEM — EXPORT =====
+Generated: 2025-01-25T09:15:00Z | User: compliance@procurementco.com
+--- BEGIN RECORDS ---
+
+<<RECORD>>
+Report ID:     COMPLIANCE-2025-01
+Title:         Supplier Compliance Matrix - Updated January 2025
+Review Period: Annual Review 2024
+
+TRADE COMPLIANCE:
+  All suppliers cleared for US/EU trade. No OFAC/sanctions matches found.
+  Last screening date: 2025-01-10.
+
+ENVIRONMENTAL COMPLIANCE:
+  ISO 14001 certified: TPA-001, ECG-002, ALT-004
+  Pending certification: ALT-003, MFG-005, RAW-008, PCK-009
+  REACH compliant: ECG-002, ALT-004
+  RoHS compliant: ECG-002, ALT-004
+
+CONFLICT MINERALS:
+  Certified conflict-free: ALT-004, MFG-005
+  Smelter audit complete: TPA-001, ECG-002
+  Pending review: ALT-003, RAW-008, PCK-009
+
+DATA PRIVACY:
+  GDPR compliant: ECG-002, ALT-004
+  Basic data protection: TPA-001, ALT-003, MFG-005
+  Under review: RAW-008, PCK-009
+
+CYBERSECURITY:
+  CMMC Level 2: MFG-005
+  SOC 2 Type II: ECG-002
+  Basic security controls: TPA-001, ALT-003, ALT-004, RAW-008, PCK-009
+
+INSURANCE:
+  All primary suppliers carry $5M+ product liability insurance.
+  Specialty suppliers (MFG-005) carry $10M aerospace product liability.
+<<END RECORD>>
+
+--- END RECORDS ---
+Footer: Confidential — Legal & Compliance Division | Attorney-Client Privileged
+===== END EXPORT =====
