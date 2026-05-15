@@ -17,6 +17,7 @@ Usage:
 
 import json
 import os
+import re
 import sys
 import time
 
@@ -27,6 +28,16 @@ from langchain_groq import ChatGroq
 load_dotenv()
 
 from graph import build_graph
+
+SKIP_SENTINEL = "__SKIP__"  # returned when a case can't be scored due to rate-limit
+
+
+def _retry_after_seconds(error_msg: str) -> float:
+    """Parse 'Please try again in Xm Ys' from Groq 429 error."""
+    m = re.search(r"try again in (\d+)m([\d.]+)s", str(error_msg))
+    if m:
+        return int(m.group(1)) * 60 + float(m.group(2))
+    return 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -57,8 +68,26 @@ def get_judge_llm():
     )
 
 
-def score_faithfulness(query: str, response: str, reference: str) -> float:
-    judge = get_judge_llm()
+def _invoke_judge(prompt: str):
+    """Invoke judge LLM with one retry on 429; return SKIP_SENTINEL if rate-limited."""
+    for attempt in range(2):
+        try:
+            return get_judge_llm().invoke(prompt)
+        except Exception as e:
+            msg = str(e)
+            if "429" in msg or "rate_limit_exceeded" in msg:
+                wait = _retry_after_seconds(msg)
+                if wait > 90 or attempt == 1:
+                    print(f"  [SKIP] Rate-limited — quota exhausted (retry in {wait:.0f}s)")
+                    return SKIP_SENTINEL
+                print(f"  [WAIT] Rate-limited — sleeping {wait:.0f}s then retrying...")
+                time.sleep(wait + 5)
+            else:
+                raise
+    return SKIP_SENTINEL
+
+
+def score_faithfulness(query: str, response: str, reference: str):
     prompt = f"""Score the faithfulness of the following response on a scale of 0.0 to 1.0.
 Faithfulness means: does the answer stay true to the reference context without hallucinating?
 
@@ -68,15 +97,16 @@ Agent Response: {response}
 
 Respond with ONLY a decimal number between 0.0 and 1.0 (e.g., 0.85).
 """
-    result = judge.invoke(prompt)
+    result = _invoke_judge(prompt)
+    if result is SKIP_SENTINEL:
+        return SKIP_SENTINEL
     try:
         return max(0.0, min(1.0, float(result.content.strip())))
     except ValueError:
         return 0.5
 
 
-def score_relevancy(query: str, response: str) -> float:
-    judge = get_judge_llm()
+def score_relevancy(query: str, response: str):
     prompt = f"""Score the answer relevancy of the following response on a scale of 0.0 to 1.0.
 Answer relevancy means: how well does the response address the user's original query?
 
@@ -85,7 +115,9 @@ Agent Response: {response}
 
 Respond with ONLY a decimal number between 0.0 and 1.0 (e.g., 0.90).
 """
-    result = judge.invoke(prompt)
+    result = _invoke_judge(prompt)
+    if result is SKIP_SENTINEL:
+        return SKIP_SENTINEL
     try:
         return max(0.0, min(1.0, float(result.content.strip())))
     except ValueError:
@@ -137,11 +169,15 @@ def run_test_case(graph, test_case: dict) -> dict:
     time.sleep(1)
     relevancy = score_relevancy(query, final_response)
 
+    skipped = faithfulness is SKIP_SENTINEL or relevancy is SKIP_SENTINEL
     return {
         "id": test_case["id"], "category": test_case["category"],
         "query": query, "response": final_response[:300],
         "tool_calls": tool_calls,
-        "faithfulness": faithfulness, "relevancy": relevancy, "tool_accuracy": tool_acc,
+        "faithfulness": faithfulness if not skipped else None,
+        "relevancy": relevancy if not skipped else None,
+        "tool_accuracy": tool_acc if not skipped else None,
+        "skipped": skipped,
     }
 
 
@@ -165,12 +201,23 @@ def main():
         print(f"[{i+1}/{len(dataset)}] {tc['category']} — {tc['query'][:60]}...")
         result = run_test_case(graph, tc)
         results.append(result)
-        print(f"  F:{result['faithfulness']:.2f} R:{result['relevancy']:.2f} T:{result['tool_accuracy']:.1f} Tools:{result['tool_calls']}")
+        if result.get("skipped"):
+            print(f"  SKIPPED (rate-limited)")
+        else:
+            print(f"  F:{result['faithfulness']:.2f} R:{result['relevancy']:.2f} T:{result['tool_accuracy']:.1f} Tools:{result['tool_calls']}")
         time.sleep(2)
 
-    avg_f = sum(r["faithfulness"] for r in results) / len(results)
-    avg_r = sum(r["relevancy"] for r in results) / len(results)
-    avg_t = sum(r["tool_accuracy"] for r in results) / len(results)
+    scored = [r for r in results if not r.get("skipped")]
+    skipped_count = len(results) - len(scored)
+    if skipped_count:
+        print(f"\n  Note: {skipped_count}/{len(results)} cases skipped due to rate-limiting.")
+    if not scored:
+        print("  ERROR: All cases skipped — cannot compute scores.")
+        sys.exit(1)
+
+    avg_f = sum(r["faithfulness"] for r in scored) / len(scored)
+    avg_r = sum(r["relevancy"]    for r in scored) / len(scored)
+    avg_t = sum(r["tool_accuracy"] for r in scored) / len(scored)
 
     print(f"\n{'='*60}\n  AGGREGATE SCORES\n{'='*60}")
     print(f"  Faithfulness:      {avg_f:.2f} (>= {thresholds['min_faithfulness']})")
@@ -194,6 +241,8 @@ def main():
             {"name": "tool_accuracy", "score": round(avg_t, 2), "threshold": thresholds["min_tool_accuracy"], "pass": t_pass},
         ],
         "overall_pass": all_pass,
+        "scored_cases": len(scored),
+        "skipped_cases": skipped_count,
         "results": results,
         "aggregate": {"avg_faithfulness": round(avg_f, 2), "avg_relevancy": round(avg_r, 2), "avg_tool_accuracy": round(avg_t, 2)},
         "thresholds": thresholds,
