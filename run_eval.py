@@ -142,11 +142,21 @@ def run_test_case(graph, test_case: dict) -> dict:
             {"recursion_limit": 25},
         )
     except Exception as e:
+        msg = str(e)
+        if "429" in msg or "rate_limit_exceeded" in msg:
+            print(f"  [SKIP] Agent rate-limited: {msg[:120]}")
+            return {
+                "id": test_case["id"], "category": test_case["category"],
+                "query": query, "response": f"RATE_LIMITED", "tool_calls": [],
+                "faithfulness": None, "relevancy": None, "tool_accuracy": None,
+                "skipped": True,
+            }
         print(f"  ERROR: {e}")
         return {
             "id": test_case["id"], "category": test_case["category"],
             "query": query, "response": f"ERROR: {e}", "tool_calls": [],
             "faithfulness": 0.0, "relevancy": 0.0, "tool_accuracy": 0.0,
+            "skipped": False,
         }
 
     tool_calls = []
