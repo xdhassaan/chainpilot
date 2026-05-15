@@ -1,0 +1,131 @@
+Loading Self-RAG graph...
+Graph ready.
+
+
+=================================================================
+  TEST CASE: TC1 — No Retrieval (Greeting)
+=================================================================
+
+Query: Hello! I'm a new student. Can you help me navigate the advisory system?
+
+[TRACE]
+  [DECISION] needs_retrieval=False | reason: The query is a greeting and a request for general assistance with the advisory system.
+  [DIRECT ANSWER] No retrieval needed — answered from general knowledge
+
+[FINAL ANSWER]
+Welcome to XYZ National University. I'd be happy to help you navigate our advisory system. As your course advisor, I'm here to guide you in choosing courses, creating a study plan, and ensuring you're on track to meet your academic goals.
+
+To get started, we can discuss your academic interests, career aspirations, and any questions or concerns you may have. We'll work together to create a personalized plan tailored to your needs. What would you like to know or discuss first?
+
+[DECISION PATH] DECISION -> DIRECT ANSWER
+
+=================================================================
+  TEST CASE: TC2 — Retrieval + Relevant Docs
+=================================================================
+
+Query: What are the prerequisites for CS401 Machine Learning and how many credit hours is it?
+
+[TRACE]
+  [DECISION] needs_retrieval=True | reason: The query is about specific course prerequisites and credit hours for CS401 Machine Learning.
+
+Key                     | Status     |  |
+
+  [RETRIEVE] Found 4 chunks from knowledge base
+    Chunk 1: [CS_Department_Catalog.pdf] CS404 — Computer Architecture Credit Hours: 3 | Prerequisite...
+    Chunk 2: [CS_Department_Catalog.pdf] CS302 — Database Systems Credit Hours: 3 | Prerequisites: CS...
+    Chunk 3: [CS_Department_Catalog.pdf] cross-validation. Library: scikit-learn. CS402 — Computer Ne...
+    Chunk 4: [CS_Department_Catalog.pdf] Von Neumann architecture, instruction set architecture (RISC...
+    Chunk 1 [CS_Department_Catalog.pdf] -> IRRELEVANT: The document mentions CS404, not CS401, and does not provide the requested information.
+    Chunk 2 [CS_Department_Catalog.pdf] -> RELEVANT: The document contains information about CS401 Machine Learning, including its prerequisites and credit hours.
+    Chunk 3 [CS_Department_Catalog.pdf] -> IRRELEVANT: The document does not mention CS401 Machine Learning or its prerequisites and credit hours.
+    Chunk 4 [CS_Department_Catalog.pdf] -> IRRELEVANT: The document does not mention the prerequisites or credit hours for CS401 Machine Learning.
+  [GRADE] 1/4 docs relevant
+  [GENERATE] Draft response produced (retry=0, length=100 chars)
+  [HALLUCINATION CHECK] verdict=GROUNDED | retry=0/3
+
+[FINAL ANSWER]
+The prerequisites for CS401 Machine Learning are CS301 and MATH201. CS401 is a 3-credit hour course.
+
+[DECISION PATH] DECISION -> RETRIEVE -> GRADE -> GENERATE -> HALLUCINATION CHECK
+
+=================================================================
+  TEST CASE: TC3 — Retrieval + No Relevant Docs -> Web Fallback
+=================================================================
+
+Query: What is the TOEFL score requirement for international students applying to XYZ National University?
+
+[TRACE]
+  [DECISION] needs_retrieval=True | reason: The query is about academic policies specific to international students applying to XYZ National University.
+  [RETRIEVE] Found 4 chunks from knowledge base
+    Chunk 1: [University_Academic_Policies.pdf] XYZ National University Official Academic Policies — Spring ...
+    Chunk 2: [University_Academic_Policies.pdf] Undergraduate: Minimum cumulative GPA of 2.0 (on a 4.0 scale...
+    Chunk 3: [University_Academic_Policies.pdf] withdrawal date. Academic Integrity Plagiarism, cheating, an...
+    Chunk 4: [University_Academic_Policies.pdf] barred from the final examination. Attendance is recorded by...
+    Chunk 1 [University_Academic_Policies.pdf] -> IRRELEVANT: The document does not mention TOEFL score requirements.
+    Chunk 2 [University_Academic_Policies.pdf] -> IRRELEVANT: The document does not mention TOEFL score requirements for international students.
+    Chunk 3 [University_Academic_Policies.pdf] -> IRRELEVANT: The document does not mention TOEFL score requirements for international students.
+    Chunk 4 [University_Academic_Policies.pdf] -> IRRELEVANT: The document does not mention TOEFL score requirements for international students.
+  [GRADE] 0/4 docs relevant
+  with DDGS() as ddgs:
+  [WEB SEARCH] KB irrelevant — searched web, got 1 results
+    Result 1: No web results found for this query....
+  [GENERATE] Draft response produced (retry=0, length=370 chars)
+  [HALLUCINATION CHECK] verdict=HALLUCINATED | retry=0/3 | unsupported: ['TOEFL score requirement', 'XYZ National University']
+  [GENERATE] Draft response produced (retry=1, length=213 chars)
+  [HALLUCINATION CHECK] verdict=HALLUCINATED | retry=1/3 | unsupported: ['TOEFL score requirement', 'XYZ National University']
+  [GENERATE] Draft response produced (retry=2, length=208 chars)
+  [HALLUCINATION CHECK] verdict=HALLUCINATED | retry=2/3 | unsupported: ['TOEFL score requirement', 'XYZ National University']
+  [DISCLAIMER] Max retries (3) reached — adding disclaimer
+Traceback (most recent call last):
+  File "C:\Users\Hassaan\Desktop\Files-3\Capstone Lab\final_exam\self_rag_agent.py", line 135, in <module>
+    run_test_suite(graph)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Hassaan\Desktop\Files-3\Capstone Lab\final_exam\self_rag_agent.py", line 94, in run_test_suite
+    result = run_query(graph, query, label=label)
+  File "C:\Users\Hassaan\Desktop\Files-3\Capstone Lab\final_exam\self_rag_agent.py", line 52, in run_query
+    result = graph.invoke(initial_state, {"recursion_limit": 30})
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\pregel\main.py", line 3068, in invoke
+    for chunk in self.stream(
+                 ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<10 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\pregel\main.py", line 2643, in stream
+    for _ in runner.tick(
+             ~~~~~~~~~~~^
+        [t for t in loop.tasks.values() if not t.writes],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        schedule_task=loop.accept_push,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\pregel\_runner.py", line 167, in tick
+    run_with_retry(
+    ~~~~~~~~~~~~~~^
+        t,
+        ^^
+    ...<10 lines>...
+        },
+        ^^
+    )
+    ^
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\pregel\_retry.py", line 42, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\_internal\_runnable.py", line 656, in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+  File "C:\Users\Hassaan\miniconda3\Lib\site-packages\langgraph\_internal\_runnable.py", line 400, in invoke
+    ret = self.func(*args, **kwargs)
+  File "C:\Users\Hassaan\Desktop\Files-3\Capstone Lab\final_exam\graph.py", line 336, in check_hallucination
+    "trace":                  append_trace(append_trace(state, trace_line), trace_disclaimer),
+                              ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Hassaan\Desktop\Files-3\Capstone Lab\final_exam\graph.py", line 87, in append_trace
+    current = state.get("trace", [])
+              ^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+During task with name 'check_hallucination' and id 'c46ed097-6c79-d6a6-9a6f-caa8dc26e941'

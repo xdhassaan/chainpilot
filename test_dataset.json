@@ -1,0 +1,177 @@
+[
+  {
+    "id": 1,
+    "category": "inventory_check",
+    "query": "What are the current inventory levels for all products supplied by TPA-001?",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns inventory data for SKUs supplied by TPA-001 including stock levels, reorder points, and unit costs."
+  },
+  {
+    "id": 2,
+    "category": "inventory_check",
+    "query": "Show me all open purchase orders in the system.",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns all purchase orders with status 'open' including PO IDs, supplier IDs, SKUs, quantities, and expected delivery dates."
+  },
+  {
+    "id": 3,
+    "category": "inventory_check",
+    "query": "What is the current stock level for SKU-MCU2200?",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns inventory data for SKU-MCU2200 showing stock of 1200 units, reorder point of 500, supplied by TPA-001."
+  },
+  {
+    "id": 4,
+    "category": "inventory_check",
+    "query": "Which SKUs from supplier ECG-002 are below their reorder point?",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns inventory data for ECG-002 supplied SKUs, allowing comparison of stock vs reorder_point."
+  },
+  {
+    "id": 5,
+    "category": "inventory_check",
+    "query": "Show me the purchase orders for supplier TPA-001 that are still open.",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns open POs for TPA-001 including PO-2024-001 and PO-2024-002."
+  },
+  {
+    "id": 6,
+    "category": "inventory_check",
+    "query": "What is the total value of all open purchase orders?",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Returns all open POs with their total_value fields for aggregation."
+  },
+  {
+    "id": 7,
+    "category": "supplier_query",
+    "query": "Find alternative semiconductor suppliers who can provide microcontrollers.",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier documents from the vector store matching semiconductor/microcontroller capabilities."
+  },
+  {
+    "id": 8,
+    "category": "supplier_query",
+    "query": "Search for suppliers with ISO 9001 certification in Asia.",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier qualification documents matching ISO 9001 certification and Asian region."
+  },
+  {
+    "id": 9,
+    "category": "supplier_query",
+    "query": "What backup suppliers do we have for passive components?",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier documents related to passive component capabilities from the vector database."
+  },
+  {
+    "id": 10,
+    "category": "supplier_query",
+    "query": "Find suppliers in Europe that can provide resistors and capacitors.",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns European supplier documents matching resistor and capacitor product lines."
+  },
+  {
+    "id": 11,
+    "category": "supplier_query",
+    "query": "Who are the top-rated suppliers for semiconductor components?",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier qualification docs ranked by quality ratings for semiconductor products."
+  },
+  {
+    "id": 12,
+    "category": "supplier_query",
+    "query": "Search for suppliers with military-grade certification.",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier documents matching military-grade or MIL-SPEC certifications."
+  },
+  {
+    "id": 13,
+    "category": "pricing",
+    "query": "What is the pricing for SKU-MCU2200 from supplier ALT-003?",
+    "expected_tool": "get_supplier_pricing",
+    "reference_answer": "Returns pricing data: ALT-003 offers SKU-MCU2200 at $5.25/unit, 12-day lead time, MOQ 2000."
+  },
+  {
+    "id": 14,
+    "category": "pricing",
+    "query": "Compare the price of SKU-MCU3300 between TPA-001 and ALT-003.",
+    "expected_tool": "get_supplier_pricing",
+    "reference_answer": "TPA-001: $6.75, 18-day lead time, MOQ 5000. ALT-003: $7.80, 12-day lead time, MOQ 2000."
+  },
+  {
+    "id": 15,
+    "category": "disruption_alert",
+    "query": "Are there any current supply chain disruptions in Asia?",
+    "expected_tool": "fetch_disruption_alerts",
+    "reference_answer": "Returns current disruption alerts for the Asia region with severity, details, and recommended actions."
+  },
+  {
+    "id": 16,
+    "category": "disruption_history",
+    "query": "How did we handle the last supplier failure event?",
+    "expected_tool": "load_disruption_history",
+    "reference_answer": "Returns historical supplier_failure events including the ECG-002 factory fire and TPA-001 quality excursion."
+  },
+  {
+    "id": 17,
+    "category": "sop",
+    "query": "What is the standard operating procedure for a supplier failure?",
+    "expected_tool": "search_sop_wiki",
+    "reference_answer": "Returns SOP-001: Supplier Failure Response Protocol with 8-step procedure."
+  },
+  {
+    "id": 18,
+    "category": "sop",
+    "query": "What is the protocol for handling a logistics delay?",
+    "expected_tool": "search_sop_wiki",
+    "reference_answer": "Returns SOP-002: Logistics Delay Response Protocol with 7-step procedure."
+  },
+  {
+    "id": 19,
+    "category": "financial",
+    "query": "Calculate the financial impact if all open POs with TPA-001 need to be rerouted to ALT-003.",
+    "expected_tool": "calculate_financial_impact",
+    "reference_answer": "Calculates cost increase, expedite fees, revenue at risk, and overall risk score for rerouting TPA-001 orders."
+  },
+  {
+    "id": 20,
+    "category": "response_plan",
+    "query": "Draft a response plan for the TPA-001 supplier failure affecting our MCU supply.",
+    "expected_tool": "draft_response_plan",
+    "reference_answer": "Generates structured response plan with prioritized actions, timelines, and owners."
+  },
+  {
+    "id": 21,
+    "category": "knowledge_base",
+    "query": "What compliance certifications does supplier TPA-001 hold?",
+    "expected_tool": "search_supplier_docs",
+    "reference_answer": "Returns supplier qualification documents for TPA-001 including certifications and compliance status."
+  },
+  {
+    "id": 22,
+    "category": "full_workflow",
+    "query": "Supplier TPA-001 has had a factory fire. Assess the impact on our inventory, find alternative suppliers, and draft a response plan.",
+    "expected_tool": "query_inventory_db",
+    "reference_answer": "Multi-step: queries inventory for TPA-001 impact, searches for alternative suppliers, calculates financial exposure, and drafts a response plan."
+  },
+  {
+    "id": 23,
+    "category": "full_workflow",
+    "query": "We have a logistics delay in Asia affecting semiconductor shipments. Check affected POs, find the SOP, and calculate financial exposure.",
+    "expected_tool": "fetch_disruption_alerts",
+    "reference_answer": "Multi-step: fetches disruption alerts, queries affected POs, looks up logistics delay SOP, and calculates financial impact."
+  },
+  {
+    "id": 24,
+    "category": "pricing",
+    "query": "Get pricing for SKU-RES10K from supplier ALT-004.",
+    "expected_tool": "get_supplier_pricing",
+    "reference_answer": "Returns ALT-004 pricing for SKU-RES10K: $0.025/unit, 10-day lead time, MOQ 500."
+  },
+  {
+    "id": 25,
+    "category": "disruption_history",
+    "query": "What was the cost impact of the Shenzhen port closure in 2023?",
+    "expected_tool": "load_disruption_history",
+    "reference_answer": "Returns history showing $125,000 cost impact, 14-day duration, rerouted via Hong Kong air freight."
+  }
+]

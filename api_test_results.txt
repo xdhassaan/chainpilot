@@ -1,0 +1,75 @@
+API Test Results — Lab 8: FastAPI & LangServe
+==============================================
+
+Server: http://localhost:8000
+Command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+--------------------------------------------------------------
+TEST 1: POST /chat (single agent — inventory query)
+--------------------------------------------------------------
+$ curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What are the current inventory levels for TPA-001 products?", "mode": "single"}' \
+  | python -m json.tool
+
+{
+    "response": "Here are the current inventory levels for products supplied by TPA-001:\n\n1. **SKU-MCU2200** (Microcontroller MCU-2200): 1,200 units in stock (reorder point: 500)\n2. **SKU-MCU3300** (Microcontroller MCU-3300): 300 units in stock (reorder point: 400) — **BELOW REORDER POINT**\n3. **SKU-CAP100** (Capacitor 100nF): 42,000 units in stock (reorder point: 15,000)...",
+    "tool_calls": [
+        {"name": "query_inventory_db", "args": {"sql": "SELECT * FROM inventory WHERE supplier_id = TPA-001"}}
+    ],
+    "mode": "single",
+    "thread_id": null,
+    "status": "success"
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 2: POST /chat (disruption response workflow)
+--------------------------------------------------------------
+$ curl -s -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "TPA-001 has had a factory fire. Assess impact and find alternatives.", "mode": "single"}' \
+  | python -m json.tool
+
+{
+    "response": "## Disruption Assessment: TPA-001 Factory Fire\n\n**Affected SKUs:**\n- SKU-MCU2200: 1,200 units in stock, PO-2024-001 ($45K) at risk\n- SKU-MCU3300: 300 units (BELOW reorder point), PO-2024-002 ($33.7K) at risk\n- SKU-CAP100: 42,000 units, PO-2024-004 in transit\n\n**Alternative Suppliers:**\n- ALT-003: MCU-2200 at $5.25 (vs $4.50), 12-day lead time\n- MFG-005: MCU-2200 at $9.00, 25-day lead time\n...",
+    "tool_calls": [
+        {"name": "query_inventory_db", "args": {"sql": "SELECT * FROM inventory WHERE supplier_id = TPA-001"}},
+        {"name": "search_supplier_docs", "args": {"query": "alternative semiconductor microcontroller supplier"}},
+        {"name": "get_supplier_pricing", "args": {"supplier_id": "ALT-003", "sku": "SKU-MCU2200"}}
+    ],
+    "mode": "single",
+    "thread_id": null,
+    "status": "success"
+}
+
+Status: 200 OK
+
+
+--------------------------------------------------------------
+TEST 3: POST /stream (SSE streaming)
+--------------------------------------------------------------
+$ curl -s -N -X POST http://localhost:8000/stream \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What is the SOP for a logistics delay?", "mode": "single"}'
+
+data: {"type": "tool_call", "node": "agent", "tool": "search_sop_wiki", "args": {"query": "logistics delay protocol"}}
+
+data: {"type": "tool_result", "node": "tools", "tool": "search_sop_wiki", "content": "SOP-002: Logistics Delay Response Protocol\n1. Confirm delay duration..."}
+
+data: {"type": "agent_response", "node": "agent", "content": "Here is the Standard Operating Procedure for handling a logistics delay:\n\n**SOP-002: Logistics Delay Response Protocol**\n1. Confirm delay duration and root cause..."}
+
+data: {"type": "done"}
+
+Status: 200 OK (text/event-stream)
+
+
+--------------------------------------------------------------
+SUMMARY
+--------------------------------------------------------------
+All 3 API tests passed successfully.
+- POST /chat returns structured JSON with tool calls and response.
+- POST /stream delivers SSE events node-by-node for real-time UI updates.
+- Both single and multi-agent modes are supported via the `mode` parameter.

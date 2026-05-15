@@ -1,0 +1,25 @@
+# Lab 9 — Docker ignore
+venv/
+.venv/
+env/
+.env
+.env.local
+.git
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.db
+*.sqlite
+checkpoint_db.sqlite
+.vscode/
+.idea/
+*.swp
+*.md
+!requirements.txt
+eval_results.json
+Tasks/
+midterm/
+chroma_db/
+.DS_Store
+Thumbs.db

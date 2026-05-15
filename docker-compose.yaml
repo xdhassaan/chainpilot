@@ -1,0 +1,46 @@
+# Lab 9 — Docker Compose for SCDRA
+version: "3.9"
+
+services:
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scdra-agent
+    ports:
+      - "8000:8000"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - CHROMA_HOST=chromadb
+      - CHROMA_PORT=8100
+    volumes:
+      - agent-data:/app/data
+      - checkpoint-data:/app/checkpoints
+    depends_on:
+      - chromadb
+    networks:
+      - scdra-network
+    restart: unless-stopped
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: scdra-chromadb
+    ports:
+      - "8100:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
+    networks:
+      - scdra-network
+    restart: unless-stopped
+
+volumes:
+  agent-data:
+    driver: local
+  checkpoint-data:
+    driver: local
+  chroma-data:
+    driver: local
+
+networks:
+  scdra-network:
+    driver: bridge

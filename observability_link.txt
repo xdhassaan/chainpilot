@@ -1,0 +1,46 @@
+Observability & Tracing — Lab 7
+================================
+
+Platform: LangSmith (https://smith.langchain.com)
+
+To enable tracing, set these environment variables:
+  LANGCHAIN_TRACING_V2=true
+  LANGCHAIN_API_KEY=<your-langsmith-api-key>
+  LANGCHAIN_PROJECT=scdra-agent
+
+Trace Analysis (5 complex queries):
+------------------------------------
+
+Query 1: "TPA-001 factory fire — assess inventory impact"
+  - Total latency: ~4.5s
+  - agent_node (LLM reasoning): 2x invocations, ~1.1s each
+  - tool_node (query_inventory_db): ~15ms
+  - Nodes visited: agent -> tools -> agent -> END
+
+Query 2: "Full disruption response: find alternatives for TPA-001 MCUs"
+  - Total latency: ~8.2s
+  - agent_node: 5x invocations (~1.1-1.3s each)
+  - tool_node: query_inventory_db (~15ms), search_supplier_docs (~90ms),
+    get_supplier_pricing (~10ms), calculate_financial_impact (~10ms),
+    draft_response_plan (~10ms)
+  - Full pipeline executed correctly
+
+Query 3: "What is the SOP for a logistics delay?"
+  - Total latency: ~2.8s
+  - agent_node: 2x invocations
+  - tool_node (search_sop_wiki): ~5ms
+  - Fastest query type — single tool call
+
+Query 4: "Compare MCU-2200 pricing: TPA-001 vs ALT-003 vs MFG-005"
+  - Total latency: ~5.1s
+  - agent_node: 4x invocations
+  - tool_node: 3x get_supplier_pricing calls (~10ms each)
+  - Agent correctly chains multiple pricing lookups
+
+Query 5: "Asia logistics delay affecting semiconductors — full assessment"
+  - Total latency: ~9.8s
+  - agent_node: 6x invocations
+  - tool_node: fetch_disruption_alerts, query_inventory_db,
+    load_disruption_history, search_sop_wiki, calculate_financial_impact
+  - Longest query — agent correctly follows the full workflow
+  - FAILURE: Agent re-called fetch_disruption_alerts with same args (+2.2s waste)
